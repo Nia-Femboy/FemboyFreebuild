@@ -5,9 +5,16 @@ import me.monst.pluginutil.command.Command;
 import me.monst.pluginutil.command.exception.CommandExecutionException;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.noktron.femboyFreebuild.FemboyFreebuildPlugin;
 import org.noktron.femboyFreebuild.Permissions;
 
 public class ClaimCommand implements Command {
+    
+    private final FemboyFreebuildPlugin plugin;
+    
+    public ClaimCommand(FemboyFreebuildPlugin plugin) {
+        this.plugin = plugin;
+    }
     
     @Override
     public String getName() {
