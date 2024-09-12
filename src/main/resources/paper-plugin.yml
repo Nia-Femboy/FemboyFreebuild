@@ -1,4 +1,4 @@
 name: FemboyFreebuild
 version: '1.0.0'
-main: org.noktron.femboyFreebuild.FemboyFreebuild
+main: org.noktron.femboyFreebuild.FemboyFreebuildPlugin
 api-version: '1.20'
