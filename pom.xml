@@ -41,6 +41,12 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <dependency>
+            <groupId>org.hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+            <version>2.7.3</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -65,6 +71,23 @@
                         <goals>
                             <goal>shade</goal>
                         </goals>
+                        <configuration>
+                            <createDependencyReducedPom>false</createDependencyReducedPom>
+                            <relocations>
+                                <relocation>
+                                    <pattern>org.hsqldb</pattern>
+                                    <shadedPattern>org.noktron.femboyFreebuild.dependencies.hsqldb</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>com.zaxxer.hikari</pattern>
+                                    <shadedPattern>org.noktron.femboyFreebuild.dependencies.hikari</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>me.monst.pluginutil</pattern>
+                                    <shadedPattern>org.noktron.femboyFreebuild.dependencies.pluginutil</shadedPattern>
+                                </relocation>
+                            </relocations>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
