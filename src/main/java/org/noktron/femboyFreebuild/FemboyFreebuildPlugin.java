@@ -6,6 +6,7 @@ import org.noktron.femboyFreebuild.command.ClaimCommand;
 import org.noktron.femboyFreebuild.command.UnclaimCommand;
 import org.noktron.femboyFreebuild.persistence.FemboyFreebuildDatabase;
 
+@SuppressWarnings("unused")
 public final class FemboyFreebuildPlugin extends JavaPlugin {
     
     private FemboyFreebuildDatabase database;
@@ -14,8 +15,8 @@ public final class FemboyFreebuildPlugin extends JavaPlugin {
     public void onEnable() {
         this.database = new FemboyFreebuildDatabase();
         new CommandRegisterService(this).register(
-                new ClaimCommand(this),
-                new UnclaimCommand(this)
+                new ClaimCommand(this.database.getClaimService()),
+                new UnclaimCommand(this.database.getClaimService())
         );
     }
 

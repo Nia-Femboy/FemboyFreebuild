@@ -3,6 +3,7 @@ package org.noktron.femboyFreebuild.persistence;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import me.monst.pluginutil.persistence.Database;
+import org.noktron.femboyFreebuild.persistence.service.ClaimService;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -12,9 +13,11 @@ import java.sql.Statement;
 public class FemboyFreebuildDatabase implements Database {
     
     private HikariDataSource dataSource;
+    private ClaimService claimService;
     
     public FemboyFreebuildDatabase() {
         this.dataSource = createDataSource();
+        this.claimService = new ClaimService(this);
         createTables();
     }
     
@@ -26,7 +29,7 @@ public class FemboyFreebuildDatabase implements Database {
     }
     
     public void createTables() {
-    
+        claimService.createTables();
     }
     
     @Override
@@ -58,6 +61,10 @@ public class FemboyFreebuildDatabase implements Database {
         config.setJdbcUrl("jdbc:hsqldb:file:plugins/FemboyFreebuild/database/claims");
         config.setConnectionTestQuery("CALL NOW()");
         return new HikariDataSource(config);
+    }
+    
+    public ClaimService getClaimService() {
+        return claimService;
     }
     
 }
