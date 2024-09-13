@@ -26,11 +26,30 @@ public abstract class PersistenceService {
         }
     }
     
-    <T> Optional<T> executeOpt(ConnectionFunction<T> query) {
+    <T> T fetch(ConnectionFunction<T> query) {
         try (Connection con = db.getConnection()) {
-            return Optional.ofNullable(query.apply(con));
+            return query.apply(con);
         } catch (SQLException e) {
-            return Optional.empty();
+            throw new RuntimeException(e);
+        }
+    }
+    
+    void transact(ConnectionConsumer writeAction) {
+        try (Connection con = db.getConnection()) {
+            try {
+                con.setAutoCommit(false);
+                writeAction.accept(con);
+                con.commit();
+            } catch (SQLException e) {
+                try {
+                    con.rollback();
+                } catch (SQLException suppressed) {
+                    e.addSuppressed(suppressed);
+                }
+                throw e;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
     

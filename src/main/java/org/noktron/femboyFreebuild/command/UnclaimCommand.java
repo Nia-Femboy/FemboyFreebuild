@@ -6,8 +6,10 @@ import me.monst.pluginutil.command.exception.CommandExecutionException;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.noktron.femboyFreebuild.domain.Chunk;
 import org.noktron.femboyFreebuild.persistence.service.ClaimService;
 
+import java.util.Optional;
 import java.util.UUID;
 
 public class UnclaimCommand implements Command {
@@ -36,12 +38,13 @@ public class UnclaimCommand implements Command {
     @Override
     public void execute(CommandSender commandSender, Arguments arguments) throws CommandExecutionException {
         Player player = Command.playerOnly(commandSender);
-        UUID ownerUuid = claimService.getOwnerOfClaimedChunk(player.getLocation().getChunk());
-        if (ownerUuid == null)
+        Chunk chunk = Chunk.convert(player.getLocation().getChunk());
+        Optional<UUID> ownerUuid = claimService.getOwnerOfClaimedChunk(chunk);
+        if (ownerUuid.isEmpty())
             Command.fail("You have not claimed this chunk.");
-        if (!ownerUuid.equals(player.getUniqueId()))
+        if (!ownerUuid.get().equals(player.getUniqueId()))
             Command.fail("You do not own this chunk.");
-        claimService.unclaimChunk(player.getLocation().getChunk());
+        claimService.unclaimChunk(chunk);
         player.sendMessage(MiniMessage.miniMessage().deserialize("<yellow>Chunk unclaimed!"));
     }
     

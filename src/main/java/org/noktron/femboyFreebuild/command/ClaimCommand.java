@@ -7,6 +7,7 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.noktron.femboyFreebuild.Permissions;
+import org.noktron.femboyFreebuild.domain.Chunk;
 import org.noktron.femboyFreebuild.persistence.service.ClaimService;
 
 import java.util.UUID;
@@ -37,13 +38,13 @@ public class ClaimCommand implements Command {
     @Override
     public void execute(CommandSender commandSender, Arguments arguments) throws CommandExecutionException {
         Player player = Command.playerOnly(commandSender);
-        UUID ownerUuid = claimService.getOwnerOfClaimedChunk(player.getLocation().getChunk());
-        if (ownerUuid != null)
+        Chunk chunk = Chunk.convert(player.getLocation().getChunk());
+        if (claimService.getOwnerOfClaimedChunk(chunk).isPresent())
             Command.fail("This chunk is already claimed.");
         int currentClaims = claimService.countClaimedChunksByOwner(player);
-        if (Permissions.CLAIM_LIMIT.isLimitReached(player, currentClaims))
+        if (Permissions.CHUNK_LIMIT.isLimitReached(player, currentClaims))
             Command.fail("You have reached the maximum number of claims.");
-        claimService.claimChunk(player, player.getLocation().getChunk());
+        claimService.claimChunk(player, chunk);
         player.sendMessage(MiniMessage.miniMessage().deserialize("<yellow>Chunk claimed!"));
     }
     

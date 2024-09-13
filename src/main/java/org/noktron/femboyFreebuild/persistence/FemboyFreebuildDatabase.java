@@ -13,7 +13,7 @@ import java.sql.Statement;
 public class FemboyFreebuildDatabase implements Database {
     
     private HikariDataSource dataSource;
-    private ClaimService claimService;
+    private final ClaimService claimService;
     
     public FemboyFreebuildDatabase() {
         this.dataSource = createDataSource();
@@ -53,12 +53,12 @@ public class FemboyFreebuildDatabase implements Database {
     
     private HikariDataSource createDataSource() {
         try {
-            Class.forName("org.hsqldb.jdbcDriver");
+            Class.forName("org.mariadb.jdbc.Driver");
         } catch (ClassNotFoundException e) {
-            throw new RuntimeException("Failed to find HSQLDB JDBC Driver!", e);
+            throw new RuntimeException("Failed to find MariaDB JDBC Driver!", e);
         }
         HikariConfig config = new HikariConfig();
-        config.setJdbcUrl("jdbc:hsqldb:file:plugins/FemboyFreebuild/database/claims");
+        config.setJdbcUrl("jdbc:mariadb:plugins/FemboyFreebuild/database/claims");
         config.setConnectionTestQuery("CALL NOW()");
         return new HikariDataSource(config);
     }
