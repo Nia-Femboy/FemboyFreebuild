@@ -29,7 +29,7 @@ public class ClaimInteractionListener implements Listener {
         if (!(mob.getTarget() instanceof Player target))
             return;
         UUID targetUuid = target.getUniqueId();
-        Map<Chunk, List<Block>> chunkBlocks = e.blockList().stream().collect(Collectors.groupingBy(block -> Chunk.convert(block.getChunk())));
+        Map<Chunk, List<Block>> chunkBlocks = e.blockList().stream().collect(Collectors.groupingBy(block -> Chunk.fromBukkit(block.getChunk())));
         for (Map.Entry<Chunk, List<Block>> entry : chunkBlocks.entrySet()) {
             Chunk chunk = entry.getKey();
             Optional<UUID> ownerUuid = claimService.getOwnerOfClaimedChunk(chunk);
@@ -45,7 +45,7 @@ public class ClaimInteractionListener implements Listener {
     public void onInteraction(PlayerInteractEvent e) {
         if (e.getInteractionPoint() == null)
             return;
-        Chunk chunk = Chunk.convert(e.getInteractionPoint().getChunk());
+        Chunk chunk = Chunk.fromBukkit(e.getInteractionPoint().getChunk());
         if (claimService.hasAccessToChunk(e.getPlayer(), chunk))
             return;
         e.setCancelled(true);

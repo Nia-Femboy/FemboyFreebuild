@@ -10,8 +10,6 @@ import org.noktron.femboyFreebuild.Permissions;
 import org.noktron.femboyFreebuild.domain.Chunk;
 import org.noktron.femboyFreebuild.persistence.service.ClaimService;
 
-import java.util.UUID;
-
 public class ClaimCommand implements Command {
     
     private final ClaimService claimService;
@@ -38,7 +36,7 @@ public class ClaimCommand implements Command {
     @Override
     public void execute(CommandSender commandSender, Arguments arguments) throws CommandExecutionException {
         Player player = Command.playerOnly(commandSender);
-        Chunk chunk = Chunk.convert(player.getLocation().getChunk());
+        Chunk chunk = Chunk.fromBukkit(player.getLocation().getChunk());
         if (claimService.getOwnerOfClaimedChunk(chunk).isPresent())
             Command.fail("This chunk is already claimed.");
         int currentClaims = claimService.countClaimedChunksByOwner(player);

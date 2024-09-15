@@ -18,7 +18,7 @@ public record Chunk(String worldName, int x, int z) {
      * @param chunk The Bukkit chunk to convert
      * @return The domain chunk
      */
-    public static Chunk convert(org.bukkit.Chunk chunk) {
+    public static Chunk fromBukkit(org.bukkit.Chunk chunk) {
         return new Chunk(chunk.getWorld().getName(), chunk.getX(), chunk.getZ());
     }
     
@@ -26,7 +26,7 @@ public record Chunk(String worldName, int x, int z) {
      * Returns the world that this chunk is in if it can be found
      * @return The optional world
      */
-    public Optional<World> world() {
+    public Optional<World> bukkitWorld() {
         return Optional.ofNullable(org.bukkit.Bukkit.getWorld(worldName));
     }
     
@@ -34,8 +34,8 @@ public record Chunk(String worldName, int x, int z) {
      * Converts this domain chunk to a Bukkit chunk if the world can be found
      * @return The Bukkit chunk optional
      */
-    public Optional<org.bukkit.Chunk> convert() {
-        return world().map(world -> world.getChunkAt(x, z));
+    public Optional<org.bukkit.Chunk> toBukkit() {
+        return bukkitWorld().map(world -> world.getChunkAt(x, z));
     }
     
 }

@@ -38,7 +38,7 @@ public class UnclaimCommand implements Command {
     @Override
     public void execute(CommandSender commandSender, Arguments arguments) throws CommandExecutionException {
         Player player = Command.playerOnly(commandSender);
-        Chunk chunk = Chunk.convert(player.getLocation().getChunk());
+        Chunk chunk = Chunk.fromBukkit(player.getLocation().getChunk());
         Optional<UUID> ownerUuid = claimService.getOwnerOfClaimedChunk(chunk);
         if (ownerUuid.isEmpty())
             Command.fail("You have not claimed this chunk.");
