@@ -6,7 +6,6 @@ import me.monst.pluginutil.persistence.ConnectionProvider;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.Optional;
 
 public abstract class PersistenceService {
     

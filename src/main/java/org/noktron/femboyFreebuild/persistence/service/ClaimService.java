@@ -1,14 +1,12 @@
 package org.noktron.femboyFreebuild.persistence.service;
 
 import me.monst.pluginutil.persistence.ConnectionProvider;
-import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.noktron.femboyFreebuild.domain.Chunk;
 import org.noktron.femboyFreebuild.domain.Claim;
 import org.noktron.femboyFreebuild.persistence.repository.ClaimRepository;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class ClaimService extends PersistenceService {
     

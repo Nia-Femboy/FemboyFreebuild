@@ -23,6 +23,7 @@ public class ClaimInteractionListener implements Listener {
     }
     
     @EventHandler
+    @SuppressWarnings("unused")
     public void onCreeperExplode(EntityExplodeEvent e) {
         if (!(e.getEntity() instanceof Mob mob))
             return;
@@ -42,6 +43,7 @@ public class ClaimInteractionListener implements Listener {
     }
     
     @EventHandler
+    @SuppressWarnings("unused")
     public void onInteraction(PlayerInteractEvent e) {
         if (e.getInteractionPoint() == null)
             return;

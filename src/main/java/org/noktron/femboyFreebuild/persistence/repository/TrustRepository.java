@@ -5,6 +5,7 @@ import me.monst.pluginutil.persistence.Query;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+@SuppressWarnings("unused")
 public class TrustRepository {
 
     public void createTable(Connection con) throws SQLException {
