@@ -131,7 +131,8 @@ public class ClaimRepository {
     public int countClaimedChunksByOwner(Connection con, UUID ownerUuid) throws SQLException {
         return Query.of("SELECT COUNT(*) FROM Chunk WHERE claimUuid IN (SELECT claimUuid FROM Claim WHERE ownerUuid = ?)")
                 .with(ownerUuid)
-                .asOne(con, Integer.class);
+                .asOptional(con, Integer.class)
+                .orElse(0);
     }
     
     private Claim reconstructClaim(ResultSet rs, Connection con) throws SQLException {
