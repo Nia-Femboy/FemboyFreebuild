@@ -25,7 +25,7 @@ public class DatabaseConfiguration extends ConfigurationBranch {
     public String getJdbcUrl() {
         return switch (type.get()) {
             case MARIADB -> "jdbc:mariadb://localhost:3306/" + name.get();
-            case SQLITE -> "jdbc:sqlite:plugins/FemboyFreebuild/database/sqlite/" + name.get() + ".db";
+            case SQLITE -> "jdbc:sqlite:plugins/FemboyFreebuild/" + name.get() + ".db";
         };
     }
     
