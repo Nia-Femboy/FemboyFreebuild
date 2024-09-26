@@ -14,7 +14,10 @@ public class DatabaseConfiguration extends ConfigurationBranch {
     }
     
     public String getJdbcDriver() {
-        return type.get().driver;
+        return switch (type.get()) {
+            case MARIADB -> "org.mariadb.jdbc.Driver";
+            case SQLITE -> "org.sqlite.JDBC";
+        };
     }
     
     public String getJdbcUrl() {

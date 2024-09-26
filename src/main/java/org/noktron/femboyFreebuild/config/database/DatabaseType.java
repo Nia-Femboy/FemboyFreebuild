@@ -9,18 +9,12 @@ import java.util.Arrays;
 public class DatabaseType extends ConfigurationValue<DatabaseType.Type> {
     
     public enum Type {
-        MARIADB("org.mariadb.jdbc.Driver"),
-        SQLITE("org.sqlite.JDBC");
-        
-        final String driver;
-        
-        Type(String driver) {
-            this.driver = driver;
-        }
+        MARIADB,
+        SQLITE
     }
     
     public DatabaseType() {
-        super("type", Type.MARIADB, new DatabaseTypeTransformer());
+        super("type", Type.SQLITE, new DatabaseTypeTransformer());
     }
     
     private static class DatabaseTypeTransformer implements Transformer<Type> {
