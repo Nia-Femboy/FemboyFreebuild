@@ -49,9 +49,10 @@ public class DatabaseConfiguration extends ConfigurationBranch {
         };
     }
     
-    public String getShutdownQuery() {
+    public Optional<String> getShutdownQuery() {
         return switch (type.get()) {
-            case MARIADB, SQLITE -> "SHUTDOWN";
+            case MARIADB -> Optional.of("SHUTDOWN");
+            case SQLITE -> Optional.empty();
         };
     }
     

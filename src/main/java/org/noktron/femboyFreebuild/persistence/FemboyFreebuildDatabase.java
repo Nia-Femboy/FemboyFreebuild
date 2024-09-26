@@ -39,13 +39,18 @@ public class FemboyFreebuildDatabase implements Database {
     public void shutdown() {
         if (dataSource == null)
             return;
-        try (Connection con = getConnection(); Statement stmt = con.createStatement()) {
-            stmt.executeUpdate(config.getShutdownQuery());
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        config.getShutdownQuery().ifPresent(this::executeShutdownQuery);
         dataSource.close();
         dataSource = null;
+    }
+    
+    private void executeShutdownQuery(String query) {
+        try (Connection connection = dataSource.getConnection();
+             Statement statement = connection.createStatement()) {
+            statement.execute(query);
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to execute shutdown query!", e);
+        }
     }
     
     @Override
