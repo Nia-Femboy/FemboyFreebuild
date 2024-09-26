@@ -3,10 +3,10 @@ package org.noktron.femboyFreebuild.command;
 import me.monst.pluginutil.command.Arguments;
 import me.monst.pluginutil.command.Command;
 import me.monst.pluginutil.command.exception.CommandExecutionException;
-import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.noktron.femboyFreebuild.domain.Chunk;
+import org.noktron.femboyFreebuild.lang.LanguageConfiguration;
 import org.noktron.femboyFreebuild.persistence.service.ClaimService;
 
 import java.util.Optional;
@@ -14,9 +14,11 @@ import java.util.UUID;
 
 public class UnclaimCommand implements Command {
     
+    private final LanguageConfiguration lang;
     private final ClaimService claimService;
     
-    public UnclaimCommand(ClaimService claimService) {
+    public UnclaimCommand(LanguageConfiguration lang, ClaimService claimService) {
+        this.lang = lang;
         this.claimService = claimService;
     }
     
@@ -37,15 +39,15 @@ public class UnclaimCommand implements Command {
     
     @Override
     public void execute(CommandSender commandSender, Arguments arguments) throws CommandExecutionException {
-        Player player = Command.playerOnly(commandSender);
+        Player player = Commands.playerOnly(commandSender, lang);
         Chunk chunk = Chunk.fromBukkit(player.getLocation().getChunk());
         Optional<UUID> ownerUuid = claimService.getOwnerOfClaimedChunk(chunk);
         if (ownerUuid.isEmpty())
-            Command.fail("You have not claimed this chunk.");
+            Commands.fail(lang.chunkNotClaimed.get());
         if (!ownerUuid.get().equals(player.getUniqueId()))
-            Command.fail("You do not own this chunk.");
+            Commands.fail(lang.chunkOwnedBySomeoneElse.get());
         claimService.unclaimChunk(chunk);
-        player.sendMessage(MiniMessage.miniMessage().deserialize("<yellow>Chunk unclaimed!"));
+        player.sendMessage(lang.chunkUnclaimed.get());
     }
     
 }

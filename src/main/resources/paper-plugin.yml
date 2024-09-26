@@ -2,3 +2,7 @@ name: FemboyFreebuild
 version: '1.0.0'
 main: org.noktron.femboyFreebuild.FemboyFreebuildPlugin
 api-version: '1.20'
+permissions:
+  femboyfreebuild.claim.chunk-limit.*:
+    description: Give a player the ability to claim unlimited chunks
+    default: op

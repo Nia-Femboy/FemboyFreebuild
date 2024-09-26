@@ -16,6 +16,17 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
+    <repositories>
+        <repository>
+            <id>papermc-repo</id>
+            <url>https://repo.papermc.io/repository/maven-public/</url>
+        </repository>
+        <repository>
+            <id>sonatype</id>
+            <url>https://oss.sonatype.org/content/groups/public/</url>
+        </repository>
+    </repositories>
+
     <dependencies>
         <dependency>
             <groupId>io.papermc.paper</groupId>
@@ -40,6 +51,12 @@
                     <artifactId>slf4j-api</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.xerial</groupId>
+            <artifactId>sqlite-jdbc</artifactId>
+            <version>3.46.1.2</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.mariadb.jdbc</groupId>
@@ -75,16 +92,20 @@
                             <createDependencyReducedPom>false</createDependencyReducedPom>
                             <relocations>
                                 <relocation>
-                                    <pattern>org.mariadb.jdbc</pattern>
-                                    <shadedPattern>org.noktron.femboyFreebuild.dependencies.mariadb</shadedPattern>
+                                    <pattern>me.monst.pluginutil</pattern>
+                                    <shadedPattern>org.noktron.femboyFreebuild.dependencies.pluginutil</shadedPattern>
                                 </relocation>
                                 <relocation>
                                     <pattern>com.zaxxer.hikari</pattern>
                                     <shadedPattern>org.noktron.femboyFreebuild.dependencies.hikari</shadedPattern>
                                 </relocation>
                                 <relocation>
-                                    <pattern>me.monst.pluginutil</pattern>
-                                    <shadedPattern>org.noktron.femboyFreebuild.dependencies.pluginutil</shadedPattern>
+                                    <pattern>org.mariadb.jdbc</pattern>
+                                    <shadedPattern>org.noktron.femboyFreebuild.dependencies.mariadb</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>org.xerial.sqlite-jdbc</pattern>
+                                    <shadedPattern>org.noktron.femboyFreebuild.dependencies.sqlite</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>
@@ -99,15 +120,4 @@
             </resource>
         </resources>
     </build>
-
-    <repositories>
-        <repository>
-            <id>papermc-repo</id>
-            <url>https://repo.papermc.io/repository/maven-public/</url>
-        </repository>
-        <repository>
-            <id>sonatype</id>
-            <url>https://oss.sonatype.org/content/groups/public/</url>
-        </repository>
-    </repositories>
 </project>
