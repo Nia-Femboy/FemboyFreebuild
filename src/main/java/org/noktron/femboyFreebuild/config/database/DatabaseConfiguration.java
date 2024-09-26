@@ -8,6 +8,8 @@ public class DatabaseConfiguration extends ConfigurationBranch {
     
     public final DatabaseType type = addChild(new DatabaseType());
     public final DatabaseName name = addChild(new DatabaseName());
+    public final DatabaseUsername username = addChild(new DatabaseUsername());
+    public final DatabasePassword password = addChild(new DatabasePassword());
     
     public DatabaseConfiguration() {
         super("database");
@@ -23,20 +25,20 @@ public class DatabaseConfiguration extends ConfigurationBranch {
     public String getJdbcUrl() {
         return switch (type.get()) {
             case MARIADB -> "jdbc:mariadb://localhost:3306/" + name.get();
-            case SQLITE -> "jdbc:sqlite:plugins/FemboyFreebuild/" + name.get() + ".db";
+            case SQLITE -> "jdbc:sqlite:plugins/FemboyFreebuild/database/sqlite/" + name.get() + ".db";
         };
     }
     
     public Optional<String> getUsername() {
         return switch (type.get()) {
-            case MARIADB -> Optional.of("root");
+            case MARIADB -> username.get();
             case SQLITE -> Optional.empty();
         };
     }
     
     public Optional<String> getPassword() {
         return switch (type.get()) {
-            case MARIADB -> Optional.of("password");
+            case MARIADB -> password.get();
             case SQLITE -> Optional.empty();
         };
     }
